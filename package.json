@@ -1,14 +1,20 @@
 {
   "name": "fisrt_node",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "file.js",
   "scripts": {
+    "start": "node index.js",
+    "dev":"nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
