@@ -4,6 +4,8 @@ const require = createRequire(import.meta.url);
 import { MongoClient } from "mongodb";
 import dotenv from 'dotenv';
 import { Console } from "console";
+import { getAllMovies, getMoviesById, AddMovie, updateMovieById, deleteMovieById } from "./helper.js";
+import { moviesRouter } from "./routes/movies.js";
 dotenv.config();
 
 // const express= require("express");
@@ -19,12 +21,12 @@ const app = express();
 
 
 console.log(process.env);
-const MONGO_URL= process.env.MONGO_URL;
+export const MONGO_URL= process.env.MONGO_URL;
 // const MONGO_URL = 'mongodb+srv://pradeep:12345@cluster0.vmjwh.mongodb.net';
 // mongodb+srv://pradeep:<password>@cluster0.vmjwh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 
-async function createConnection() {
-  const client = new MongoClient(MONGO_URL);
+  export async function createConnection() {
+   const client = new MongoClient(MONGO_URL);
   await client.connect();
   console.log("MongoDB Connected");
 
@@ -60,24 +62,26 @@ const moviesPORT = 5000;
 //   response.send(filterMovies);
 // });
 
-app.get("/movies", async (request, response) => {
-  console.log(request.params);
+// app.get("/movies", async (request, response) => {
+//   console.log(request.params);
  
-  // const movie=movies.find((data)=>data.id==id);
-  const filter=request.query;
+//   // const movie=movies.find((data)=>data.id==id);
+//   const filter=request.query;
   
-  const client = await createConnection();
+//   const client = await createConnection();
 
-  const movie = await client
-    .db("myFirstDatabase")
-    .collection("movies")
-    .find(filter).toArray();
-  console.log(filter);
-console.log(movie);
-  const notFound = { message: "No Matching Movie" };
+//   // const movie = await client
+//   //   .db("myFirstDatabase")
+//   //   .collection("movies")
+//   //   .find(filter).sort({id:1}).toArray();
+//     const movie = await getAllMovies(client, filter);
+
+//   console.log(filter);
+// console.log(movie);
+//   const notFound = { message: "No Matching Movie" };
   
-  movie.length!==0 ? response.send(movie) : response.status(404).send(notFound);
-});
+//   movie.length!==0 ? response.send(movie) : response.status(404).send(notFound);
+// });
 
 // app.get("/movies/:id", (request, response)=>{
 //   console.log(request.params);
@@ -96,42 +100,99 @@ console.log(movie);
 
 // })
 
-app.get("/movies/:id", async (request, response) => {
-  console.log(request.params);
-  const { id } = request.params;
-  // const movie=movies.find((data)=>data.id==id);
+// app.get("/movies/:id", async (request, response) => {
+//   console.log(request.params);
+//   const { id } = request.params;
+//   // const movie=movies.find((data)=>data.id==id);
 
-  const client = await createConnection();
+//   const client = await createConnection();
 
-  const movie = await client
-    .db("myFirstDatabase")
-    .collection("movies")
-    .findOne({ id: id });
-  console.log(movie);
+//   // const movie = await client
+//   //   .db("myFirstDatabase")
+//   //   .collection("movies")
+//   //   .findOne({ id: id });
+//     const movie = await getMoviesById(client, id);
 
-  const notFound = { message: "No Matching Movie" };
+//   console.log(movie);
 
-  movie ? response.send(movie) : response.status(404).send(notFound);
-});
+//   const notFound = { message: "No Matching Movie" };
 
-app.post("/movies", async (request, response) => {
-  // console.log(request.params);
+//   movie ? response.send(movie) : response.status(404).send(notFound);
+// });
 
-  const data = request.body;
-  console.log(data);
+// app.post("/movies", async (request, response) => {
+//   // console.log(request.params);
 
-  const client = await createConnection();
-  // db.collection.insertMany(data)
+//   const data = request.body;
+//   console.log(data);
 
-  const result = await client
-    .db("myFirstDatabase")
-    .collection("movies")
-    .insertMany(data);
-  console.log(result);
+//   const client = await createConnection(); 
+//   // db.collection.insertMany(data)
 
-  response.send(result);
-});
 
+//   // const result = await client
+//   //   .db("myFirstDatabase")
+//   //   .collection("movies")
+//   //   .insertMany(data);
+//     const result = await AddMovie(client, data);
+
+//   console.log(result);
+
+//   response.send(result);
+// });
+
+
+
+// app.put("/movies/:id", async (request, response) => {
+//   // console.log(request.params);
+// const {id}=request.params;
+
+//   const data = request.body;
+//   console.log(data);
+
+//   const client = await createConnection();
+//   // db.collection.insertMany(data)
+
+//   // const result = await client
+//   //   .db("myFirstDatabase")
+//   //   .collection("movies")
+//   //   .updateOne({id:id}, {$set:data});
+
+//     const result = await updateMovieById(client, id, data);
+//   console.log(result);
+
+//   response.send(result);
+// });
+
+
+
+// app.delete("/movies/:id", async (request, response) => {
+//   console.log(request.params);
+
+//  const {id}= request.params;
+
+//   const client = await createConnection(); 
+//   // db.collection.insertMany(data)
+
+//   // const result = await client
+//   //   .db("myFirstDatabase")
+//   //   .collection("movies")
+//   //   .deleteOne({id:id});
+//     const result = await deleteMovieById(client, id);
+
+//   console.log(result);
+
+//   const notFound = { message: "No Matching Movie" };
+  
+//   result ? response.send(result) : response.status(404).send(notFound);
+// });
+
+
+
+app.use("/movies", moviesRouter)
 app.listen(moviesPORT, () =>{
   console.log("movie app is started with PORT " + moviesPORT)
 });
+
+
+
