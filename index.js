@@ -46,7 +46,7 @@ app.get("/", (request, response) => {
 // app.listen(PORT,()=>console.log("App is started on "+PORT));
 
 
-//While putting in heroku gibe process.env.PORT || 5000
+//While putting in heroku gibe process.env.PORT || 5000   heroku will automatically assign it
 const moviesPORT = process.env.PORT || 5000;
 
 // app.get("/movies", (request, response)=>{
