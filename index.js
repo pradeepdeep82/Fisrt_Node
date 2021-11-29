@@ -45,7 +45,9 @@ app.get("/", (request, response) => {
 });
 // app.listen(PORT,()=>console.log("App is started on "+PORT));
 
-const moviesPORT = 5000;
+
+//While putting in heroku gibe process.env.PORT || 5000
+const moviesPORT = process.env.PORT || 5000;
 
 // app.get("/movies", (request, response)=>{
 //   console.log(request.query);
