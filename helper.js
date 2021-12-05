@@ -6,6 +6,16 @@
     .collection("movies")
     .insertMany(data);
 }
+
+
+async function createUser(client, data) {
+  return await client
+    .db("myFirstDatabase")
+    .collection("users")
+    .insertOne(data);
+}
+
+
  async function getAllMovies(client, filter) {
   return await client
     .db("myFirstDatabase")
@@ -31,4 +41,11 @@
     .findOne({ id: id });
 }
 
-export { getAllMovies, getMoviesById, AddMovie, updateMovieById, deleteMovieById };
+async function getUserByName(client, username) {
+  return await client
+    .db("myFirstDatabase")
+    .collection("users")
+    .findOne({ username: username });
+}
+
+export { getAllMovies, getMoviesById, AddMovie, createUser, updateMovieById, deleteMovieById, getUserByName };

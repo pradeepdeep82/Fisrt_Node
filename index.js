@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import { Console } from "console";
 import { getAllMovies, getMoviesById, AddMovie, updateMovieById, deleteMovieById } from "./helper.js";
 import { moviesRouter } from "./routes/movies.js";
+import { usersRouter } from "./routes/users.js";
+import cors from 'cors';
 dotenv.config();
 
 // const express= require("express");
@@ -37,7 +39,10 @@ export const MONGO_URL= process.env.MONGO_URL;
 
   return client;
 }
+// parse body to JSON 
 app.use(express.json());
+// Thirdparty middleware
+app.use(cors());
 // createConnection();
 
 app.get("/", (request, response) => {
@@ -46,7 +51,7 @@ app.get("/", (request, response) => {
 // app.listen(PORT,()=>console.log("App is started on "+PORT));
 
 
-//While putting in heroku gibe process.env.PORT || 5000   heroku will automatically assign it
+//While putting in heroku give process.env.PORT || 5000   heroku will automatically assign it
 const moviesPORT = process.env.PORT || 5000;
 
 // app.get("/movies", (request, response)=>{
@@ -191,7 +196,10 @@ const moviesPORT = process.env.PORT || 5000;
 
 
 
-app.use("/movies", moviesRouter)
+app.use("/movies", moviesRouter);
+
+app.use("/users", usersRouter);
+
 app.listen(moviesPORT, () =>{
   console.log("movie app is started with PORT " + moviesPORT)
 });
