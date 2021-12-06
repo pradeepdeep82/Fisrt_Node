@@ -4,7 +4,7 @@ import {ObjectId} from 'mongodb';
   return await client
     .db("myFirstDatabase")
     .collection("movies")
-    .insertMany(data);
+    .insertOne(data);
 }
 
 

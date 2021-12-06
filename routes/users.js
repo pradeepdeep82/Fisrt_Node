@@ -25,8 +25,8 @@ const router= express.Router();
     const client = await createConnection();
 //   const result= await getUserByName(client, username);
 // console.log(result);
-const isUserExist= await getUserByName(client, username);
-console.log(isUserExist);
+const userFromDB= await getUserByName(client, username);
+console.log(userFromDB);
 
 // regex = “^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)” + “(?=.*[-+_!@#$%^&*., ?]).+$” 
 // where, 
@@ -91,11 +91,11 @@ async function generatePassword(password) {
   return hashedPassword;
 }
 
-// const storedPassword= isUserExist.password;
+// const storedPassword= userFromDB.password;
 // const isPasswordMatch= await bcrypt.compare(password, storedPassword);
 
 // if(isPasswordMatch){
-//   const token= jwt.sign({id:isUserExist._id}, process.env.SECRET_KEY);
+//   const token= jwt.sign({id:userFromDB._id}, process.env.SECRET_KEY);
 //   response.send({message:"Successfull login", token: token});
 // }else{
 //   response.send({message:"Invalid credentials"});
